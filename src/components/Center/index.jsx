@@ -26,6 +26,7 @@ const Center = (props) => {
             text:'瓜瓜',
             width:20,
             height:20,
+            fontSize:28,
             fill:'pink',
             stroke:'green',
             fontWeight:'1000'

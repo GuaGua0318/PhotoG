@@ -7,9 +7,6 @@ const Option = Select;
 const TextEdit = () => {
 
     const {textEditCb} = useContext(Context);
-    const handleChange = () => {
-
-    }
 
     return (
         <div className="textWrapper">
@@ -24,20 +21,20 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={handleChange}
+                    onChange={(e) => textEditCb('fontSize',e)}
                 >
                     <Option value="12">12</Option>
                     <Option value="14">14</Option>
                     <Option value="16">16</Option>
                     <Option value="18">18</Option>
-                    <Option value="18">18</Option>
-                    <Option value="18">18</Option>
-                    <Option value="18">18</Option>
+                    <Option value="20">20</Option>
+                    <Option value="22">22</Option>
+                    <Option value="24">24</Option>
                 </Select>
             </div>
             <div className="text-stroke">
                 <span>边框：</span>
-                <input type='color'></input>
+                <input type='color' onChange={(e) => textEditCb('stroke',e.target.value)}></input>
             </div>
             <div className="text-strokeWidth">
                 <span>边框宽度：</span>
@@ -46,15 +43,15 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={handleChange}
+                    onChange={(e) => textEditCb('strokeWidth','e')}
                 >
                     <Option value="12">12</Option>
                     <Option value="14">14</Option>
                     <Option value="16">16</Option>
                     <Option value="18">18</Option>
-                    <Option value="18">18</Option>
-                    <Option value="18">18</Option>
-                    <Option value="18">18</Option>
+                    <Option value="20">20</Option>
+                    <Option value="22">22</Option>
+                    <Option value="24">24</Option>
                 </Select>
             </div>
             <div className="text-Weight">
@@ -64,7 +61,7 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={handleChange}
+                    onChange={(e) => textEditCb('fontWeight',e)}
                 >
                     <Option value="300">300</Option>
                     <Option value="500">500</Option>
@@ -82,9 +79,10 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
+                    onChange={(e) => textEditCb('underline',e)}
                 >
-                    <Option value='false'>关</Option>
-                    <Option value='true'>开</Option>
+                    <Option value='true'>关</Option>
+                    <Option value=''>开</Option>
                 </Select>
             </div>
             <div className="text-overline">
@@ -94,9 +92,10 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
+                    onChange={(e) => textEditCb('overline',e)}
                 >
-                    <Option value='false'>关</Option>
-                    <Option value='true'>开</Option>
+                    <Option value='true'>关</Option>
+                    <Option value=''>开</Option>
                 </Select>
             </div>
         </div>
