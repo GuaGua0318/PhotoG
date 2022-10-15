@@ -1,9 +1,14 @@
-import React from 'react';
+import { Fragment } from 'react';
+import './App.css'
 import HomeIndex from "./HomeIndex/index.jsx";
+import Bg from './components/ui/Bg'
 
 const App = () => {
     return (
-        <HomeIndex></HomeIndex>
+        <Fragment>
+            <Bg/>
+            <HomeIndex></HomeIndex>
+        </Fragment>
     );
 };
 

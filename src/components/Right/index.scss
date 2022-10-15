@@ -1,0 +1,45 @@
+.right{
+  width: 350px;
+  height: 700px;
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  margin-top: -350px;
+  background: white;
+  .edit{
+    height: 250px;
+    p{
+      text-align: center;
+      line-height: 40px;
+      height: 40px;
+      border-bottom: 1px solid gray;
+    }
+  }
+  .add{
+    height: 350px;
+    p{
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px solid gray;
+    }
+    .add-wrapper{
+      display: flex;
+      .shape{
+        cursor: pointer;
+        margin-right: 10px;
+      }
+    }
+  }
+  .boxs{
+    .saveImg{
+      width: 150px;
+      margin: 0 auto;
+      margin-bottom: 10px;
+    }
+    .saveTemplate{
+      width: 150px;
+      margin: 0 auto;
+    }
+  }
+}

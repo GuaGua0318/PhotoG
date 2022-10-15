@@ -1,0 +1,15 @@
+.left{
+  width: 280px;
+  height: 700px;
+  background: white;
+  position: absolute;
+  top: 50%;
+  margin-top: -350px;
+  left: 30px;
+  .text{
+    text-align: center;
+    border-bottom: 1px solid gray;
+    height: 40px;
+    line-height: 40px;
+  }
+}
