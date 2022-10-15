@@ -14,8 +14,7 @@ const Right = (props) => {
         <div className="right">
             <div className="edit">
                 <p>属性编辑</p>
-                {/*<TextEdit/>*/}
-
+                <TextEdit/>
             </div>
             <div className="add">
                 <p>添加元素</p>

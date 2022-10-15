@@ -1,10 +1,12 @@
 import {Select} from "antd";
 import './index.scss'
+import {useContext} from "react";
+import {Context} from "../../../../utils/Context.js";
 
 const Option = Select;
-
 const TextEdit = () => {
 
+    const {textEditCb} = useContext(Context);
     const handleChange = () => {
 
     }
@@ -13,7 +15,7 @@ const TextEdit = () => {
         <div className="textWrapper">
             <div className="text-color">
                 <span>填充</span>
-                <input type='color'></input>
+                <input type='color' onChange={(e) => textEditCb('fill',e.target.value)}></input>
             </div>
             <div className="text-size">
                 <span>字号:</span>

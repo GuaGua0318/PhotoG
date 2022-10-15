@@ -12,6 +12,7 @@ const Center = (props) => {
     const [size,setSize] = useState([700,640]);
     const [TextAttrs,setTextAttrs] = useState({...baseShapeConfig['IText']})  //文本
     const type = props.type;
+    const attrs = props.attrs;
 
     useEffect(() => {
         canvasRef.current = new fabric.Canvas('canvas',{
@@ -60,6 +61,15 @@ const Center = (props) => {
         canvasRef.current.add(shape);
     }
 
+    useEffect(() => {
+        if(attrs){
+            if(canvasRef.current.getActiveObject()){  //如果没有选中则不要在执行更新命令，
+                updateAttr(attrs[0],attrs[1])         //否则会报错
+            }
+
+        }
+    },[attrs])
+
     //更新选中元素
     const updateAttr = (type,val) => {
        setTextAttrs({...TextAttrs,[type]:val});
@@ -73,7 +83,7 @@ const Center = (props) => {
             <div className="hd">
                 PhotoG图形编辑器
                 <div className="boxs">
-                    <Button onClick={() => updateAttr('fill','green')}>背景</Button>
+                    <Button>背景</Button>
                     <Button>清除</Button>
                     <Button>预览</Button>
                 </div>
