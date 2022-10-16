@@ -6,7 +6,8 @@ const ElementType = createSlice({
         type:'',
         isSave:false,
         Tplshow:false,
-        TplId:''
+        TplId:'',
+        xzSelect:''
     },
     reducers:{
         GetType(state,action){
@@ -20,11 +21,13 @@ const ElementType = createSlice({
         },
         SelectTpl(state,action){
             state.TplId = action.payload;
+        },
+        HandleXz(state,action){
+            state.xzSelect = action.payload;
         }
-
     }
 })
 
-export const { GetType,SaveImg,HandleTplShow,SelectTpl } = ElementType.actions;
+export const { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz } = ElementType.actions;
 
 export default ElementType.reducer

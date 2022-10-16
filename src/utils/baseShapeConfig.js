@@ -9,7 +9,8 @@ const baseShapeConfig = {
     Rect:{
         width: 30,
         height: 30,
-        fill: 'red'
+        fill: 'red',
+        name:'rect'
     }
 }
 export default baseShapeConfig;

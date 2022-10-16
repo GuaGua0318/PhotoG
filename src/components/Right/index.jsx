@@ -3,8 +3,9 @@ import {Button, Tooltip,} from "antd";
 import { createFromIconfontCN } from '@ant-design/icons';
 import TextEdit from "./componetns/TextEdit/index.jsx";
 import RectEdit from "./componetns/RectEdit/index.jsx";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { GetType,SaveImg,HandleTplShow } from '../../store/modules/ElementType.js'
+import {useEffect} from "react";
 
 const IconFont = createFromIconfontCN({
     scriptUrl: 'https://at.alicdn.com/t/c/font_3707966_7isnltzp05v.js',
@@ -12,14 +13,23 @@ const IconFont = createFromIconfontCN({
 
 const Right = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const { xzSelect } = useSelector(state => state.ElementType)
+    useEffect(() => {
+        if(xzSelect){
+            console.log(xzSelect)
+        }
+    })
 
     return (
         <div className="right">
             <div className="edit">
                 <p>属性编辑</p>
+                {
+                    xzSelect === 'text' ? <TextEdit/> : <RectEdit/>
+                }
                 {/*<TextEdit/>*/}
-                <RectEdit/>
+                {/*<RectEdit/>*/}
             </div>
             <div className="add">
                 <p>添加元素</p>

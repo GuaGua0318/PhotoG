@@ -6,7 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import {nanoid} from "nanoid";
 import baseShapeConfig from "../../utils/baseShapeConfig.js";
 import {useDispatch, useSelector} from "react-redux";
-import { GetType,SaveImg,HandleTplShow,SelectTpl } from "../../store/modules/ElementType.js";
+import { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz } from "../../store/modules/ElementType.js";
 
 const Center = (props) => {
 
@@ -17,7 +17,7 @@ const Center = (props) => {
     const [imgUrl,setImgUrl] = useState('');
     const [isShow,setIsShow] = useState(false);
     const [elementName,setElementName] = useState(null);
-    const { type,isSave,Tplshow,TplId } = useSelector(state => state.ElementType)
+    const { type,isSave,Tplshow,TplId,xzSelect } = useSelector(state => state.ElementType)
     const dispatch = useDispatch();
     const [isTplShow,setIsTplShow] = useState(false);
     const TplNameRef = useRef(null);
@@ -27,7 +27,6 @@ const Center = (props) => {
     })
 
     useEffect(() => {
-        console.log(tpls)
         canvasRef.current = new fabric.Canvas('canvas',{
             width:700,
             height:640,
@@ -104,12 +103,20 @@ const Center = (props) => {
                     left:size[0] / 3,
                     top:size[0] / 3
                 })
+                shape.on('selected',(e) => {
+                    const name = e.target.name
+                    dispatch(HandleXz(name))
+                })
                 break;
             case 'Rect' :
                 shape = new fabric[type]({
                     ...baseShapeConfig[type],
                     left:size[0] / 3,
                     top:size[0] / 3
+                })
+                shape.on('selected',(e) => {
+                    const name = e.target.name
+                    dispatch(HandleXz(name))
                 })
                 break;
         }
