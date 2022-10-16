@@ -4,7 +4,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 import TextEdit from "./componetns/TextEdit/index.jsx";
 import RectEdit from "./componetns/RectEdit/index.jsx";
 import {useDispatch} from "react-redux";
-import { GetType } from '../../store/modules/ElementType.js'
+import { GetType,SaveImg,HandleTplShow } from '../../store/modules/ElementType.js'
 
 const IconFont = createFromIconfontCN({
     scriptUrl: 'https://at.alicdn.com/t/c/font_3707966_7isnltzp05v.js',
@@ -41,10 +41,10 @@ const Right = () => {
                 </div>
             </div>
             <div className="boxs">
-                <div className="saveImg">
+                <div className="saveImg"  onClick={() => dispatch(SaveImg(true))}>
                     <Button type='primary' block>保存图片</Button>
                 </div>
-                <div className="saveTemplate">
+                <div className="saveTemplate" onClick={() => dispatch(HandleTplShow(true))}>
                     <Button type='primary' block>保存模板</Button>
                 </div>
             </div>

@@ -1,12 +1,12 @@
 import './index.scss'
-import { Button,Modal } from "antd";
+import { Button,Modal,Input } from "antd";
 import 'antd/dist/antd.css';
 import {fabric} from "fabric";
 import {useEffect, useRef, useState} from "react";
 import {nanoid} from "nanoid";
 import baseShapeConfig from "../../utils/baseShapeConfig.js";
 import {useDispatch, useSelector} from "react-redux";
-import { GetType } from "../../store/modules/ElementType.js";
+import { GetType,SaveImg,HandleTplShow,SelectTpl } from "../../store/modules/ElementType.js";
 
 const Center = (props) => {
 
@@ -17,10 +17,17 @@ const Center = (props) => {
     const [imgUrl,setImgUrl] = useState('');
     const [isShow,setIsShow] = useState(false);
     const [elementName,setElementName] = useState(null);
-    const { type,isType } = useSelector(state => state.ElementType)
+    const { type,isSave,Tplshow,TplId } = useSelector(state => state.ElementType)
     const dispatch = useDispatch();
+    const [isTplShow,setIsTplShow] = useState(false);
+    const TplNameRef = useRef(null);
+    const [tpls,setTpls] = useState(() => {
+        const tpls = JSON.parse(localStorage.getItem('tpls') || "{}");
+        return Object.keys(tpls).map((item) => ({t:tpls[item].t,id:item}))
+    })
 
     useEffect(() => {
+        console.log(tpls)
         canvasRef.current = new fabric.Canvas('canvas',{
             width:700,
             height:640,
@@ -84,11 +91,11 @@ const Center = (props) => {
     useEffect(() => {
         if(!type) return;
         inserElement(type);
-        dispatch(GetType(''))  //向redux中进行回传，如果不改变状态将无法选取相同的元素
+        dispatch(GetType(''))  //向store中进行回传，如果不改变状态将无法选取相同的元素
     })
 
     //插入元素
-    const inserElement = (type = ElementType) => {
+    const inserElement = (type) => {
         let shape = null;
         switch (type){
             case 'IText':
@@ -149,12 +156,83 @@ const Center = (props) => {
         setIsShow(false)
     }
 
+    useEffect(() => {
+        if(isSave){
+            saveImg()
+            dispatch(SaveImg(false))
+        }
+    })
+    //保存图片
+    const saveImg = () => {
+       canvasRef.current.discardActiveObject();
+       canvasRef.current.renderAll();
+       download(getImgUrl(),nanoid(6) + '瓜瓜' + '.png')
+    }
+    const download = (url,filename,cb) => {
+        return fetch(url).then((res) => res.blob().then((blob) => {
+            let a = document.createElement('a');
+            let url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            cb && cb();
+        }))
+    }
+
+    //保存模板
+    const handleSaveTpl = () => {
+        const val = TplNameRef.current.input.value;
+        const json = canvasRef.current.toDatalessJSON();
+        const id = nanoid(8);
+        //存json
+        const tpls = JSON.parse(localStorage.getItem('tpls') || "{}");
+        tpls[id] = {json,t:val};
+        localStorage.setItem('tpls',JSON.stringify(tpls));
+        //存图片
+        canvasRef.current.discardActiveObject();
+        canvasRef.current.renderAll();
+        const imgUrl = getImgUrl();
+        const tplImgs = JSON.parse(localStorage.getItem('tplImgs') || "{}");
+        tplImgs[id] = imgUrl;
+        localStorage.setItem('tplImgs',JSON.stringify(tplImgs));
+        //更新模板列表
+        setTpls((prev) => [...prev, {id, t: val}])
+        setIsTplShow(false)
+    }
+    useEffect(() => {
+        if(Tplshow){
+            setIsTplShow(true);
+            dispatch(HandleTplShow(false));
+        }
+    })
+
+    //使用模板
+    const renderJson = (id) => {
+        const tpls = JSON.parse(localStorage.getItem('tpls') || "{}")
+        canvasRef.current.clear();
+        canvasRef.current.backgroundColor = 'rgba(255,255,255,1)';
+        canvasRef.current.loadFromJSON(tpls[id].json, canvasRef.current.renderAll.bind(canvasRef.current))
+    }
+    //使用模板
+    useEffect(() => {
+        if(TplId){
+            renderJson(TplId);
+            dispatch(() => SelectTpl(''))
+        }
+    })
+
+    const closeTplModal = () => {
+        setIsTplShow(false)
+    }
+
+
     return (
         <div className="center">
             <div className="hd">
                 PhotoG图形编辑器
                 <div className="boxs">
-                    <Button>背景</Button>
+                    <Button onClick={() => saveImg()}>背景</Button>
                     <Button onClick={() => clear()}>清除</Button>
                     <Button onClick={() => handlePreview()}>预览</Button>
                 </div>
@@ -164,6 +242,20 @@ const Center = (props) => {
             </div>
             <Modal title="预览图片" open={isShow} footer={null} onCancel={closeModal} width={size[0]}>
                 <img src={imgUrl} alt="" style={{width: '100%'}} />
+            </Modal>
+            <Modal
+                title="保存模版"
+                open={isTplShow}
+                onCancel={closeTplModal}
+                onOk={handleSaveTpl}
+                width={500}
+                okText="确定"
+                cancelText="取消"
+            >
+                <div>
+                    <label htmlFor="">模版名称: </label>
+                    <Input placeholder="请输入模版名称" ref={TplNameRef}/>
+                </div>
             </Modal>
         </div>
     );
