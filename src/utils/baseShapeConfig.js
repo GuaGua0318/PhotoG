@@ -3,7 +3,8 @@ const baseShapeConfig = {
         text:'瓜瓜',
         width:20,
         height:20,
-        fill:'pink'
+        fill:'pink',
+        name:'text'
     },
     Rect:{
         width: 30,

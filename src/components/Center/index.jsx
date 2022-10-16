@@ -5,16 +5,20 @@ import {fabric} from "fabric";
 import {useEffect, useRef, useState} from "react";
 import {nanoid} from "nanoid";
 import baseShapeConfig from "../../utils/baseShapeConfig.js";
+import {useDispatch, useSelector} from "react-redux";
+import { GetType } from "../../store/modules/ElementType.js";
 
 const Center = (props) => {
 
     const canvasRef = useRef(null);
     const [size,setSize] = useState([700,640]);
-    const [TextAttrs,setTextAttrs] = useState({...baseShapeConfig['IText']})  //文本
-    const type = props.type;
+    const [Attrs,setAttrs] = useState({...baseShapeConfig})
     const attrs = props.attrs;
     const [imgUrl,setImgUrl] = useState('');
     const [isShow,setIsShow] = useState(false);
+    const [elementName,setElementName] = useState(null);
+    const { type,isType } = useSelector(state => state.ElementType)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         canvasRef.current = new fabric.Canvas('canvas',{
@@ -55,27 +59,36 @@ const Center = (props) => {
         }
 
         //创建一个元素
-        const shape = new fabric.IText(nanoid(8),{
-            text:'瓜瓜',
-            width:20,
-            height:20,
-            fontSize:28,
-            fill:'pink',
-            stroke:'green',
-            fontWeight:'1000'
+        // const shape = new fabric.IText(nanoid(8),{
+        //     text:'瓜瓜',
+        //     width:20,
+        //     height:20,
+        //     fontSize:28,
+        //     fill:'pink',
+        //     stroke:'green',
+        //     fontWeight:'1000'
+        // })
+        const shape = new fabric.Rect({
+            width: 30,
+            height: 30,
+            fill: 'red',
+            stroke:'pink',
+            strokeWidth:1,
+            strokeDashArray:[20,5,14],
+            name:'rect'
         })
         canvasRef.current.add(shape)
-        console.log('ddd')
     },[]);
 
 
     useEffect(() => {
-        if(type){
-            inserElement(type);
-        }
-    },[type])
+        if(!type) return;
+        inserElement(type);
+        dispatch(GetType(''))  //向redux中进行回传，如果不改变状态将无法选取相同的元素
+    })
+
     //插入元素
-    const inserElement = (type) => {
+    const inserElement = (type = ElementType) => {
         let shape = null;
         switch (type){
             case 'IText':
@@ -105,11 +118,12 @@ const Center = (props) => {
         }
     },[attrs])
 
+
     //更改元素属性值后更新选中元素
     const updateAttr = (type,val) => {
-       setTextAttrs({...TextAttrs,[type]:val});
+       setAttrs({...Attrs,[type]:val});
        const obj = canvasRef.current.getActiveObject();
-       obj.set({...TextAttrs})
+       obj.set({...Attrs})
        canvasRef.current.renderAll();
     }
 

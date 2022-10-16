@@ -6,13 +6,13 @@ import {Context} from "../../../../utils/Context.js";
 const Option = Select;
 const TextEdit = () => {
 
-    const {textEditCb} = useContext(Context);
+    const {EditCb} = useContext(Context);
 
     return (
         <div className="textWrapper">
             <div className="text-color">
                 <span>填充</span>
-                <input type='color' onChange={(e) => textEditCb('fill',e.target.value)}></input>
+                <input type='color' onChange={(e) => EditCb('fill',e.target.value)}></input>
             </div>
             <div className="text-size">
                 <span>字号:</span>
@@ -21,7 +21,7 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={(e) => textEditCb('fontSize',e)}
+                    onChange={(e) => EditCb('fontSize',e)}
                 >
                     <Option value="12">12</Option>
                     <Option value="14">14</Option>
@@ -34,7 +34,7 @@ const TextEdit = () => {
             </div>
             <div className="text-stroke">
                 <span>边框：</span>
-                <input type='color' onChange={(e) => textEditCb('stroke',e.target.value)}></input>
+                <input type='color' onChange={(e) => EditCb('stroke',e.target.value)}></input>
             </div>
             <div className="text-strokeWidth">
                 <span>边框宽度：</span>
@@ -43,7 +43,7 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={(e) => textEditCb('strokeWidth','e')}
+                    onChange={(e) => EditCb('strokeWidth','e')}
                 >
                     <Option value="12">12</Option>
                     <Option value="14">14</Option>
@@ -61,7 +61,7 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={(e) => textEditCb('fontWeight',e)}
+                    onChange={(e) => EditCb('fontWeight',e)}
                 >
                     <Option value="300">300</Option>
                     <Option value="500">500</Option>
@@ -79,7 +79,7 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={(e) => textEditCb('underline',e)}
+                    onChange={(e) => EditCb('underline',e)}
                 >
                     <Option value='true'>关</Option>
                     <Option value=''>开</Option>
@@ -92,7 +92,7 @@ const TextEdit = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={(e) => textEditCb('overline',e)}
+                    onChange={(e) => EditCb('overline',e)}
                 >
                     <Option value='true'>关</Option>
                     <Option value=''>开</Option>

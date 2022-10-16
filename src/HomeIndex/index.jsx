@@ -6,23 +6,19 @@ import {Context} from "../utils/Context";
 
 const HomeIndex = () => {
 
-    const [type,setType] = useState(null);
     const [attrs,setAttrs] = useState(null)
 
     //将添加元素的类型进行回传
-    const typeCb = (arg) => {
-        setType(arg)
-    }
-    const textEditCb = (type,val) => {
+    const EditCb = (type,val) => {
         setAttrs([type,val]);
     }
 
     return (
         <div className="HomeIndex">
-            <Context.Provider value={{textEditCb}}>
+            <Context.Provider value={{EditCb}}>
                 <Left/>
-                <Center type={type} attrs={attrs}/>
-                <Right typeCb={typeCb}/>
+                <Center attrs={attrs}/>
+                <Right/>
             </Context.Provider>
         </div>
     );
