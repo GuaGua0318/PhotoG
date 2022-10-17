@@ -56,7 +56,6 @@ const TextEdit = () => {
                     <Option value=''>开</Option>
                 </Select>
             {/*</div>*/}
-            text
         </div>
     );
 };

@@ -39,7 +39,6 @@ const TriangleEdit = () => {
                     <Option value="24">24</Option>
                 </Select>
             {/*</div>*/}
-            triangle
         </div>
     );
 };

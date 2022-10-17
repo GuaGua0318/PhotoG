@@ -22,7 +22,6 @@ const RectEdit = () => {
                 <span>边框：</span>
             <InputNumber size="small" min={1} style={{width: 60}} onChange={(e) => dispatch(EditCb(['strokeWidth', e]))} />
             {/*</div>*/}
-            rect
         </div>
     );
 };
