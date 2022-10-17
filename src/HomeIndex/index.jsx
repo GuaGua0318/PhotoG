@@ -7,8 +7,13 @@ import './index.scss'
 
 const HomeIndex = () => {
 
+    const [width,setWidth] = useState(1200)
+
     useEffect(() => {
-        if(window.innerWidth < 1200){
+        if(window.outerWidth < 1200){
+            if(window.confirm("未适配移动端请关闭浏览器")){
+                window.close();
+            }
             setInterval(() => {
                 if(window.confirm("未适配移动端请关闭浏览器")){
                     window.close();
