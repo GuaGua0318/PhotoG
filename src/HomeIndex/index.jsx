@@ -11,11 +11,11 @@ const HomeIndex = () => {
 
     useEffect(() => {
         if(window.outerWidth < 1200){
-            if(window.confirm("未适配移动端请关闭浏览器")){
+            if(window.confirm("未适配移动端请关闭浏览器!!")){
                 window.close();
             }
             setInterval(() => {
-                if(window.confirm("未适配移动端请关闭浏览器")){
+                if(window.confirm("未适配移动端请关闭浏览器!!")){
                     window.close();
                 }
             },1000)
