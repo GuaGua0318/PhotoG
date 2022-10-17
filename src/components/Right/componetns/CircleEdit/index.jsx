@@ -14,7 +14,7 @@ const CircleEdit = () => {
                 <span>填充：</span>
                 <input type='color' onChange={(e) => EditCb('fill',e.target.value)}></input>
             </div>
-            <div className="Rect-strokeWidth">
+            <div className="Circle-color">
                 <span>边框：</span>
                 <Select
                     defaultValue="12"
@@ -32,7 +32,7 @@ const CircleEdit = () => {
                     <Option value="24">24</Option>
                 </Select>
             </div>
-            <div className="Rect-stroke">
+            <div className="Circle-color">
                 <span>边框颜色：</span>
                 <input type="color" onChange={(e) => EditCb('stroke',e.target.value)}></input>
             </div>
