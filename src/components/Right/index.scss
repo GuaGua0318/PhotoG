@@ -1,22 +1,24 @@
 .right{
   width: 350px;
   height: 700px;
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  margin-top: -350px;
   background: white;
   .edit{
-    height: 250px;
+    height: 350px;
     p{
       text-align: center;
       line-height: 40px;
       height: 40px;
       border-bottom: 1px solid gray;
     }
+    .noSelect{
+      text-align: center;
+      line-height: 350px;
+      color: red;
+      font-size: 30px;
+    }
   }
   .add{
-    height: 350px;
+    height: 250px;
     p{
       text-align: center;
       height: 40px;

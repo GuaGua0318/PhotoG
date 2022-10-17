@@ -3,21 +3,16 @@ import Left from "../components/Left/index.jsx";
 import Center from "../components/Center/index.jsx";
 import Right from "../components/Right/index.jsx";
 import {Context} from "../utils/Context";
+import './index.scss'
 
 const HomeIndex = () => {
 
-    const [attrs,setAttrs] = useState(null)
-
-    //将添加元素的类型进行回传
-    const EditCb = (type,val) => {
-        setAttrs([type,val]);
-    }
 
     return (
         <div className="HomeIndex">
-            <Context.Provider value={{EditCb}}>
+            <Context.Provider>
                 <Left/>
-                <Center attrs={attrs}/>
+                <Center/>
                 <Right/>
             </Context.Provider>
         </div>

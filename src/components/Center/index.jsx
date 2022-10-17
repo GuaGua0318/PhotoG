@@ -6,18 +6,16 @@ import {useEffect, useRef, useState} from "react";
 import {nanoid} from "nanoid";
 import baseShapeConfig from "../../utils/baseShapeConfig.js";
 import {useDispatch, useSelector} from "react-redux";
-import { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz,GetFile } from "../../store/modules/ElementType.js";
+import { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz,GetFile,EditCb } from "../../store/modules/ElementType.js";
 
-const Center = (props) => {
+const Center = () => {
 
     const canvasRef = useRef(null);
     const [size,setSize] = useState([700,640]);
-    const [Attrs,setAttrs] = useState({...baseShapeConfig})
-    const attrs = props.attrs;
+    const [Attrs,setAttrs] = useState();
     const [imgUrl,setImgUrl] = useState('');
     const [isShow,setIsShow] = useState(false);
-    const [elementName,setElementName] = useState(null);
-    const { type,isSave,Tplshow,TplId,xzSelect,file } = useSelector(state => state.ElementType)
+    const { type,isSave,Tplshow,TplId,file,attrs,xzSelect } = useSelector(state => state.ElementType)
     const dispatch = useDispatch();
     const [isTplShow,setIsTplShow] = useState(false);
     const TplNameRef = useRef(null);
@@ -65,23 +63,19 @@ const Center = (props) => {
         }
 
         //创建一个元素
-        // const shape = new fabric.IText(nanoid(8),{
-        //     text:'瓜瓜',
-        //     width:20,
-        //     height:20,
-        //     fontSize:28,
-        //     fill:'pink',
-        //     stroke:'green',
-        //     fontWeight:'1000'
-        // })
-        const shape = new fabric.Rect({
-            width: 30,
-            height: 30,
-            fill: 'red',
-            stroke:'pink',
-            strokeWidth:1,
-            strokeDashArray:[20,5,14],
-            name:'rect'
+        const shape = new fabric.IText(nanoid(8),{
+            text:'瓜瓜',
+            width:20,
+            height:20,
+            fontSize:28,
+            fill:'pink',
+            stroke:'green',
+            fontWeight:'1000',
+            name:'text'
+        });
+        shape.on('selected',(e) => {
+            const name = e.target.name
+            dispatch(HandleXz(name))
         })
         canvasRef.current.add(shape)
     },[]);
@@ -134,7 +128,7 @@ const Center = (props) => {
                 });
                 shape.on('selected',(e) => {
                     const name = e.target.name
-                    dispatch(HandleXz(name))
+                    dispatch(HandleXz('line'))
                 });
                 break;
             case 'Circle' :
@@ -186,21 +180,22 @@ const Center = (props) => {
     })
 
     useEffect(() => {
-        if(attrs){
+        if(attrs.length > 1){
             if(canvasRef.current.getActiveObject()){  //如果没有选中则不要在执行更新命令，
                 updateAttr(attrs[0],attrs[1])         //否则会报错
             }
-
         }
     },[attrs])
 
 
     //更改元素属性值后更新选中元素
     const updateAttr = (type,val) => {
-       setAttrs({...Attrs,[type]:val});
+       setAttrs({...baseShapeConfig[xzSelect],[type]:val});
        const obj = canvasRef.current.getActiveObject();
+       console.log(obj)
        obj.set({...Attrs})
        canvasRef.current.renderAll();
+       console.log(obj)
     }
 
     //清空画布
@@ -295,13 +290,19 @@ const Center = (props) => {
         setIsTplShow(false)
     }
 
+    //切换背景色
+    const hanlechangeBg = (e) => {
+        canvasRef.current.backgroundColor = e;
+        canvasRef.current.renderAll();
+    }
+
 
     return (
         <div className="center">
             <div className="hd">
                 PhotoG图形编辑器
                 <div className="boxs">
-                    <Button onClick={() => saveImg()}>背景</Button>
+                    <div className="bg-box"><input type='color' onChange={(e) => hanlechangeBg(e.target.value)}/></div>
                     <Button onClick={() => clear()}>清除</Button>
                     <Button onClick={() => handlePreview()}>预览</Button>
                 </div>

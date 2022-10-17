@@ -3,6 +3,10 @@ import {Button, Tooltip, Upload,} from "antd";
 import { createFromIconfontCN } from '@ant-design/icons';
 import TextEdit from "./componetns/TextEdit/index.jsx";
 import RectEdit from "./componetns/RectEdit/index.jsx";
+import CircleEdit from "./componetns/CircleEdit/index.jsx";
+import LineEdit from "./componetns/LineEdit/index.jsx";
+import ImageEdit from "./componetns/ImageEdit/index.jsx";
+import TriangleEdit from "./componetns/TriangleEdit/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import { GetType,SaveImg,HandleTplShow,GetFile } from '../../store/modules/ElementType.js'
 import {useEffect} from "react";
@@ -34,7 +38,12 @@ const Right = () => {
             <div className="edit">
                 <p>属性编辑</p>
                 {
-                    xzSelect === 'text' ? <TextEdit/> : <RectEdit/>
+                    xzSelect === 'text' ? <TextEdit/> :
+                        xzSelect === 'circle' ? <CircleEdit/> :
+                            xzSelect === 'Image' ? <ImageEdit/> :
+                                xzSelect === 'line' ? <LineEdit/> :
+                                    xzSelect === 'rect' ? <RectEdit/> :
+                                        xzSelect === 'triangle' ? <TriangleEdit/> : <div className="noSelect">请选择图形</div>
                 }
                 {/*<TextEdit/>*/}
                 {/*<RectEdit/>*/}

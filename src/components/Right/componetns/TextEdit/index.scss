@@ -1,4 +1,10 @@
 .textWrapper{
-  display: flex;
-  flex-wrap: wrap;
+  margin-left: 20px;
+  div{
+    margin-bottom: 5px;
+  }
+}
+.textWrapper span{
+  display: inline-block;
+  width: 50%;
 }
