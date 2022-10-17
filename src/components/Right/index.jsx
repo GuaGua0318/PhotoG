@@ -1,25 +1,33 @@
 import './index.scss'
-import {Button, Tooltip,} from "antd";
+import {Button, Tooltip, Upload,} from "antd";
 import { createFromIconfontCN } from '@ant-design/icons';
 import TextEdit from "./componetns/TextEdit/index.jsx";
 import RectEdit from "./componetns/RectEdit/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import { GetType,SaveImg,HandleTplShow } from '../../store/modules/ElementType.js'
+import { GetType,SaveImg,HandleTplShow,GetFile } from '../../store/modules/ElementType.js'
 import {useEffect} from "react";
 
 const IconFont = createFromIconfontCN({
-    scriptUrl: 'https://at.alicdn.com/t/c/font_3707966_7isnltzp05v.js',
+    scriptUrl: 'https://at.alicdn.com/t/c/font_3707966_mwmmu0ojqs.js',
 });
 
 const Right = () => {
 
     const dispatch = useDispatch();
-    const { xzSelect } = useSelector(state => state.ElementType)
-    useEffect(() => {
-        if(xzSelect){
-            console.log(xzSelect)
-        }
-    })
+    const { xzSelect } = useSelector(state => state.ElementType);
+     const props = {
+         action: '',
+         beforeUpload(file) {
+             return new Promise(resolve => {
+                 dispatch(GetFile((file)))
+                 // const reader = new FileReader();
+                 // reader.readAsDataURL(file);
+                 // reader.onload = () => {
+                 //     insertElement('Image', reader.result || logo)
+                 // };
+             });
+         },
+     };
 
     return (
         <div className="right">
@@ -46,6 +54,36 @@ const Right = () => {
                             <div className="rect" onClick={() => dispatch(GetType('Rect'))}>
                                 <IconFont type="icon-juxing" style={{fontSize:'30px'}}/>
                             </div>
+                        </Tooltip>
+                    </div>
+                    <div className="shape">
+                        <Tooltip title='添加圆形'>
+                            <div className="circle" onClick={() => dispatch(GetType('Circle'))}>
+                                <IconFont type="icon-circle" style={{fontSize:'30px'}}/>
+                            </div>
+                        </Tooltip>
+                    </div>
+                    <div className="shape">
+                        <Tooltip title='添加三角形'>
+                            <div className="triangle" onClick={() => dispatch(GetType('Triangle'))}>
+                                <IconFont type="icon-sanjiaoxing" style={{fontSize:'30px'}}/>
+                            </div>
+                        </Tooltip>
+                    </div>
+                    <div className="shape">
+                        <Tooltip title='添加线段'>
+                            <div className="line" onClick={() => dispatch(GetType('Line'))}>
+                                <IconFont type="icon-xiantiao" style={{fontSize:'30px'}}/>
+                            </div>
+                        </Tooltip>
+                    </div>
+                    <div className="shape">
+                        <Tooltip title='添加图片'>
+                            <Upload {...props}>
+                                <div className="image">
+                                    <IconFont type="icon-tupian" style={{fontSize:'30px'}}/>
+                                </div>
+                            </Upload>
                         </Tooltip>
                     </div>
                 </div>

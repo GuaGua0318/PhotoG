@@ -7,7 +7,8 @@ const ElementType = createSlice({
         isSave:false,
         Tplshow:false,
         TplId:'',
-        xzSelect:''
+        xzSelect:'',
+        file:new Blob()
     },
     reducers:{
         GetType(state,action){
@@ -24,10 +25,13 @@ const ElementType = createSlice({
         },
         HandleXz(state,action){
             state.xzSelect = action.payload;
+        },
+        GetFile(state,action){
+            state.file = action.payload;
         }
     }
 })
 
-export const { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz } = ElementType.actions;
+export const { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz,GetFile } = ElementType.actions;
 
 export default ElementType.reducer

@@ -6,7 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import {nanoid} from "nanoid";
 import baseShapeConfig from "../../utils/baseShapeConfig.js";
 import {useDispatch, useSelector} from "react-redux";
-import { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz } from "../../store/modules/ElementType.js";
+import { GetType,SaveImg,HandleTplShow,SelectTpl,HandleXz,GetFile } from "../../store/modules/ElementType.js";
 
 const Center = (props) => {
 
@@ -17,7 +17,7 @@ const Center = (props) => {
     const [imgUrl,setImgUrl] = useState('');
     const [isShow,setIsShow] = useState(false);
     const [elementName,setElementName] = useState(null);
-    const { type,isSave,Tplshow,TplId,xzSelect } = useSelector(state => state.ElementType)
+    const { type,isSave,Tplshow,TplId,xzSelect,file } = useSelector(state => state.ElementType)
     const dispatch = useDispatch();
     const [isTplShow,setIsTplShow] = useState(false);
     const TplNameRef = useRef(null);
@@ -94,7 +94,7 @@ const Center = (props) => {
     })
 
     //插入元素
-    const inserElement = (type) => {
+    const inserElement = (type,url) => {
         let shape = null;
         switch (type){
             case 'IText':
@@ -119,9 +119,71 @@ const Center = (props) => {
                     dispatch(HandleXz(name))
                 })
                 break;
+            case 'Line' :
+                shape = new fabric[type]([
+                    10, 10, // 起始点坐标
+                    200, 300 // 结束点坐标
+                ],{
+                    stroke: '#ccc',
+                    fill: 'rgba(255,255,255,0)',
+                    strokeWidth: 2,
+                    angle: -90,
+                    objectCaching: false,
+                    left: size[0] / 3,
+                    top: size[1] / 3
+                });
+                shape.on('selected',(e) => {
+                    const name = e.target.name
+                    dispatch(HandleXz(name))
+                });
+                break;
+            case 'Circle' :
+                shape = new fabric[type]({
+                    ...baseShapeConfig[type],
+                    left:size[0] / 3,
+                    top:size[0] / 3
+                });
+                shape.on('selected',(e) => {
+                    const name = e.target.name
+                    dispatch(HandleXz(name))
+                });
+                break;
+            case 'Triangle' :
+                shape = new fabric[type]({
+                    ...baseShapeConfig[type],
+                    left:size[0] / 3,
+                    top:size[0] / 3
+                });
+                shape.on('selected',(e) => {
+                    const name = e.target.name
+                    dispatch(HandleXz(name))
+                });
+                break;
+            case 'Image' :
+                fabric.Image.fromURL(url,(oImg) => {
+                    oImg.scale(0.1);
+                    oImg.on('selected',() => {
+                        dispatch(HandleXz('Image'))
+                    })
+                    canvasRef.current.add(oImg);
+                })
+                return;
         }
         canvasRef.current.add(shape);
     }
+
+    //添加图片
+    useEffect(() => {
+        if(file){
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                inserElement('Image', reader.result)
+            };
+        }
+        dispatch(GetFile(''))
+        // console.log(file)
+    })
 
     useEffect(() => {
         if(attrs){
