@@ -246,6 +246,7 @@ const Center = () => {
 
     //保存模板
     const handleSaveTpl = () => {
+        console.log('ddd')
         const val = TplNameRef.current.input.value;
         const json = canvasRef.current.toDatalessJSON();
         const id = nanoid(8);
@@ -295,6 +296,7 @@ const Center = () => {
         canvasRef.current.backgroundColor = e;
         canvasRef.current.renderAll();
     }
+
 
 
     return (

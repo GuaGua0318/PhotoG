@@ -19,7 +19,7 @@ const Right = () => {
 
     const dispatch = useDispatch();
     const { xzSelect } = useSelector(state => state.ElementType);
-     const props = {
+    const props = {
          action: '',
          beforeUpload(file) {
              return new Promise(resolve => {
